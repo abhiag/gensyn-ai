@@ -65,8 +65,8 @@ backup_files() {
         cp /root/rl-swarm/swarm.pem "$backup_dir/"
         
         # Check for .pem file (assuming it might be in the same directory)
-        if [ -f "/root/rl-swarm/node.pem" ]; then
-            cp /root/rl-swarm/node.pem "$backup_dir/"
+        if [ -f "~/rl-swarm/node.pem" ]; then
+            cp ~/rl-swarm/node.pem "$backup_dir/"
         fi
         
         echo "Backup completed. Files saved in: $(pwd)/$backup_dir"
