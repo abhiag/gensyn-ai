@@ -4,7 +4,8 @@ Gensyn AI Node is a simple one-click toolkit to set up and run your AI node effo
 
 ## 🔥 Requirements
 - **GPU Required**
-- **CUDA must be installed**
+- **FOR GPU Users CUDA must be installed**
+- **If It's running Fine with CPU VPS Users - It'll be shared with you soon**
 
 ---
 
