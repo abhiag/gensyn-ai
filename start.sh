@@ -4,7 +4,7 @@
 # Fully working version
 
 # Configuration
-SESSION_NAME="swarm"
+SESSION_NAME="gensyn"
 PROJECT_DIR="$HOME/rl-swarm"
 VENV_DIR="$PROJECT_DIR/.venv"
 RUN_SCRIPT="$PROJECT_DIR/run_rl_swarm.sh"
