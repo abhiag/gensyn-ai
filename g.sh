@@ -32,8 +32,22 @@ start_node() {
 # Function to check node status
 check_status() {
     echo "Checking Node Status..."
-    echo "Running 'screen -r gensyn' to view node status..."
-    screen -r gensyn
+    
+    # Check if screen session exists
+    if screen -list | grep -q "gensyn"; then
+        echo "Detaching existing screen session..."
+        screen -d -r gensyn >/dev/null 2>&1 || true
+        sleep 1
+        
+        echo "Reattaching to screen session 'gensyn'..."
+        screen -r gensyn
+        
+        echo "You have detached from the screen session."
+    else
+        echo "No 'gensyn' screen session found."
+        echo "Please start your node first (Option 2)."
+    fi
+    
     read -p "Press [Enter] to return to menu..."
 }
 
