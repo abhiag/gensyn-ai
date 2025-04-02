@@ -4,7 +4,7 @@
 show_menu() {
     clear
     echo "===================================="
-    echo "  Gensyn Node Installation Toolkit  "
+    echo "  Gensyn Node Installation Toolkit By GA-Crypto "
     echo "===================================="
     echo "1. Install Node"
     echo "2. Start Node"
