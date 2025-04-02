@@ -192,12 +192,6 @@ cleanup() {
 
 echo -e "\n${GREEN}=== Starting 1-Click Node Installation ===${NC}"
 
-# Check if running as root
-if [ "$EUID" -eq 0 ]; then
-    echo -e "${RED}Please run as normal user, not root.${NC}"
-    exit 1
-fi
-
 install_basics
 setup_time_sync
 install_docker
