@@ -198,7 +198,6 @@ install_docker
 install_python
 install_node
 clone_repo
-install_go
 setup_swap
 cleanup
 
