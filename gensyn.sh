@@ -155,7 +155,7 @@ install_python() {
 
     # Install protobuf (using exact version to avoid conflicts)
     pip install --upgrade pip
-    pip install "protobuf==5.27.1"
+    pip install "protobuf==5.27.1"  # Using single == specifier
     check_success "Protobuf installation"
 
     # Verification
