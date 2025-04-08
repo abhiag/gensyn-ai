@@ -141,24 +141,26 @@ install_docker() {
 
 install_python() {
     section "Installing Python"
+    
+    # Install system Python tools
     sudo apt-get update
     sudo apt-get install -y python3 python3-pip python3-venv python3-dev python3-full
     check_success "System Python installation"
 
-    # Create and activate a virtual environment
+    # Create and activate virtual environment
     python3 -m venv ~/.venv/hivemind
-    source ~/.venv/hivemind/bin/activate  # On Windows: .venv\hivemind\Scripts\activate
+    source ~/.venv/hivemind/bin/activate
     check_success "Virtual environment creation"
 
-    # Install protobuf in the venv (compatible with hivemind)
+    # Upgrade pip and install correct protobuf version
     pip install --upgrade pip
-    pip install "protobuf>=3.12.2,<5.28.0"
+    pip install "protobuf>=3.12.2,<5.28.0"  # or use "protobuf==5.27.1" for exact version
     check_success "Protobuf installation"
 
+    # Verify installations
     status "Python version: $(python3 --version)"
     status "Pip version: $(pip --version)"
     status "Protobuf version: $(pip show protobuf | grep Version)"
-    status "Virtual env activated at: ~/.venv/hivemind"
 }
 
 install_node() {
