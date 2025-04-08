@@ -142,22 +142,23 @@ install_docker() {
 install_python() {
     section "Installing Python"
     
-    # Install system Python tools
+    # Install system dependencies
     sudo apt-get update
     sudo apt-get install -y python3 python3-pip python3-venv python3-dev python3-full
     check_success "System Python installation"
 
-    # Create and activate virtual environment
+    # Create clean virtual environment
+    rm -rf ~/.venv/hivemind  # Remove existing if any
     python3 -m venv ~/.venv/hivemind
     source ~/.venv/hivemind/bin/activate
     check_success "Virtual environment creation"
 
-    # Upgrade pip and install correct protobuf version
+    # Install protobuf (using exact version to avoid conflicts)
     pip install --upgrade pip
-    pip install "protobuf>=3.12.2,<5.28.0"  # or use "protobuf==5.27.1" for exact version
+    pip install "protobuf==5.27.1"
     check_success "Protobuf installation"
 
-    # Verify installations
+    # Verification
     status "Python version: $(python3 --version)"
     status "Pip version: $(pip --version)"
     status "Protobuf version: $(pip show protobuf | grep Version)"
