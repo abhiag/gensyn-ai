@@ -60,11 +60,35 @@ install_node() {
 # Function to start node
 start_node() {
     echo -e "\n\033[1;32mStarting Gensyn Node...\033[0m"
+    
+    # Kill any existing gensyn screen sessions
+    echo "Checking for existing screen sessions..."
+    screen -ls | awk '/[0-9]+\.gensyn/ {print $1}' | while read -r session; do
+        echo "Terminating existing session: $session"
+        screen -X -S "$session" quit
+        sleep 1  # Give it a moment to terminate
+    done
+    
+    # Verify all sessions are closed
+    if screen -ls | grep -q "gensyn"; then
+        echo -e "\033[1;31mFailed to terminate existing screen sessions!\033[0m"
+        read -p "Press [Enter] to return to menu..."
+        return 1
+    fi
+    
+    echo "Starting new node instance..."
     if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/start.sh); then
         echo -e "\033[1;32mNode started successfully!\033[0m"
+        
+        # Verify the screen session started
+        sleep 2  # Wait a moment for screen to start
+        if ! screen -ls | grep -q "gensyn"; then
+            echo -e "\033[1;33mWarning: Node started but no screen session detected.\033[0m"
+        fi
     else
         echo -e "\033[1;31mFailed to start node. Please check the logs.\033[0m"
     fi
+    
     read -p "Press [Enter] to return to menu..."
 }
 
