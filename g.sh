@@ -3,7 +3,15 @@
 # Function to check CUDA installation
 check_cuda() {
     echo "Checking CUDA installation..."
-    if ! command -v nvcc &> /dev/null; then
+    
+    # Check multiple ways CUDA might be detected
+    if command -v nvcc &>/dev/null || \
+       [ -f "/usr/local/cuda/version.txt" ] || \
+       nvidia-smi | grep -q "CUDA Version"; then
+        echo -e "\033[1;32mCUDA is already installed.\033[0m"
+        nvcc --version | grep "release"
+        return 0
+    else
         echo -e "\n\033[1;31mCUDA is not installed or not in PATH.\033[0m"
         echo -e "\033[1;33mWould you like to install CUDA now? (y/n)\033[0m"
         read -r answer
@@ -20,9 +28,6 @@ check_cuda() {
             echo -e "\033[1;31mCUDA is required for Gensyn node installation.\033[0m"
             return 1
         fi
-    else
-        echo -e "\033[1;32mCUDA is already installed.\033[0m"
-        return 0
     fi
 }
 
@@ -41,19 +46,18 @@ show_menu() {
     echo -n "Please enter your choice [1-5]: "
 }
 
-# Function to install node
+# Function to install node with CUDA check
 install_node() {
-    check_cuda || {
+    echo "Starting Node Installation..."
+    
+    # Check CUDA first
+    if ! check_cuda; then
         read -p "Press [Enter] to return to menu..."
         return
-    }
-    
-    echo -e "\n\033[1;32mStarting Node Installation...\033[0m"
-    if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/gensyn.sh); then
-        echo -e "\033[1;32mNode installation completed successfully!\033[0m"
-    else
-        echo -e "\033[1;31mNode installation failed. Please check the logs.\033[0m"
     fi
+    
+    # Proceed with installation if CUDA check passed
+    bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/gensyn.sh)
     read -p "Press [Enter] to return to menu..."
 }
 
