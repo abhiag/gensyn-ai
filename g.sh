@@ -1,5 +1,28 @@
 #!/bin/bash
 
+# Function to check CUDA installation
+check_cuda() {
+    if ! command -v nvcc &> /dev/null; then
+        echo "CUDA is not installed or not in PATH."
+        echo "Would you like to install CUDA now? (y/n)"
+        read -r answer
+        if [[ "$answer" =~ [Yy] ]]; then
+            echo "Installing CUDA..."
+            bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh)
+            if [ $? -ne 0 ]; then
+                echo "CUDA installation failed. Please install it manually."
+                return 1
+            fi
+        else
+            echo "CUDA is required for Gensyn node installation."
+            return 1
+        fi
+    else
+        echo "CUDA is already installed."
+        return 0
+    fi
+}
+
 # Function to display the menu
 show_menu() {
     clear
@@ -17,6 +40,12 @@ show_menu() {
 
 # Function to install node
 install_node() {
+    echo "Checking system requirements..."
+    check_cuda || {
+        read -p "Press [Enter] to return to menu..."
+        return
+    }
+    
     echo "Starting Node Installation..."
     bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/gensyn.sh)
     read -p "Press [Enter] to return to menu..."
