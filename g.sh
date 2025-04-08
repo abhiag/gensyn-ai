@@ -46,18 +46,72 @@ show_menu() {
     echo -n "Please enter your choice [1-5]: "
 }
 
-# Function to install node with CUDA check
+# Function to handle node installation with build error fixes
 install_node() {
-    echo "Starting Node Installation..."
+    echo "Starting Node Installation with dependency fixes..."
     
-    # Check CUDA first
+    # First check CUDA requirements
     if ! check_cuda; then
         read -p "Press [Enter] to return to menu..."
-        return
+        return 1
     fi
+
+    # Create temporary installation directory
+    TEMP_DIR=$(mktemp -d)
+    cd "$TEMP_DIR" || exit 1
     
-    # Proceed with installation if CUDA check passed
-    bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/gensyn.sh)
+    echo "Downloading and modifying installation script..."
+    curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/gensyn.sh -o gensyn.sh
+    
+    # Apply all necessary fixes
+    echo "Applying dependency fixes..."
+    
+    # 1. Fix protobuf conflict
+    sed -i '/pip install /s/protobuf/protobuf==5.27.2/' gensyn.sh
+    
+    # 2. Add Next.js and Account Kit fixes
+    cat << 'EOT' >> gensyn.sh
+    # Additional fixes for build errors
+    if [ -d "node_modules" ]; then
+        echo "Applying Next.js and Account Kit fixes..."
+        # Update Next.js
+        npm install next@latest
+        
+        # Fix Account Kit dependency
+        if [ -d "node_modules/@account-kit" ]; then
+            cd node_modules/@account-kit/infra
+            npm install viem@latest
+            cd ../../..
+        fi
+        
+        # Alternative fix if the above doesn't work
+        if grep -q "'sonic' is not exported from 'viem/chains'" build.log 2>/dev/null; then
+            echo "Applying sonic chain export fix..."
+            npm install @account-kit/react@latest @account-kit/infra@latest
+        fi
+    fi
+EOT
+
+    echo "Running modified installation script..."
+    bash gensyn.sh 2>&1 | tee installation.log
+    
+    # Check for build errors
+    if grep -q "Failed to compile" installation.log || grep -q "Attempted import error" installation.log; then
+        echo -e "\033[1;31mBuild error detected. Applying additional fixes...\033[0m"
+        
+        # Try alternative fixes
+        npm install next@latest @account-kit/react@latest @account-kit/infra@latest viem@latest
+        
+        # If using yarn
+        if command -v yarn &> /dev/null; then
+            yarn add next@latest @account-kit/react@latest @account-kit/infra@latest viem@latest
+        fi
+    fi
+
+    # Clean up
+    cd ..
+    rm -rf "$TEMP_DIR"
+    
     read -p "Press [Enter] to return to menu..."
 }
 
