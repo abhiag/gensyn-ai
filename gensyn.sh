@@ -143,8 +143,14 @@ install_python() {
     section "Installing Python"
     sudo apt-get install -y python3 python3-pip python3-venv python3-dev
     check_success "Python installation"
+    
+    # Install a compatible protobuf version (avoiding yanked 5.29.0)
+    sudo pip install "protobuf>=3.12.2,<5.28.0" --upgrade
+    check_success "Protobuf installation"
+    
     status "Python version: $(python3 --version)"
     status "Pip version: $(pip3 --version)"
+    status "Protobuf version: $(pip show protobuf | grep Version)"
 }
 
 install_node() {
