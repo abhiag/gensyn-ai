@@ -1,42 +1,46 @@
 #!/bin/bash
 
-# Function to check CUDA installation
 check_cuda() {
     echo "Checking CUDA installation..."
     
-    # Check via nvcc first (primary method)
+    # Primary check - nvcc (CUDA Toolkit)
     if command -v nvcc &>/dev/null; then
-        echo -e "\033[1;32mCUDA is already installed.\033[0m"
-        echo -e "CUDA Version: $(nvcc --version | grep -oP 'release \K[0-9.]+')"
+        echo -e "\033[1;32mCUDA Toolkit is installed.\033[0m"
+        nvcc --version | grep "release"
         return 0
     
-    # Fallback checks (version file or nvidia-smi)
-    elif [ -f "/usr/local/cuda/version.txt" ]; then
-        echo -e "\033[1;32mCUDA is installed (via version file).\033[0m"
-        echo -e "CUDA Version: $(cat /usr/local/cuda/version.txt)"
-        return 0
-    
+    # Secondary check - driver but no toolkit
     elif command -v nvidia-smi &>/dev/null && nvidia-smi | grep -q "CUDA Version"; then
-        echo -e "\033[1;33mCUDA driver found, but nvcc may not be installed.\033[0m"
-        echo -e "Driver CUDA Version: $(nvidia-smi | grep -oP 'CUDA Version: \K[0-9.]+')"
-        echo -e "\033[1;33mEnsure CUDA Toolkit (nvcc) is installed for full functionality.\033[0m"
-        return 1
+        echo -e "\033[1;33mNVIDIA driver found but CUDA Toolkit (nvcc) is missing.\033[0m"
+        local driver_version=$(nvidia-smi | grep -oP 'CUDA Version: \K[0-9.]+')
+        echo -e "Detected Driver CUDA Version: ${driver_version}"
+        
+        echo -e "\033[1;36mAttempting to install matching CUDA Toolkit...\033[0m"
+        if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh); then
+            echo -e "\033[1;32mCUDA Toolkit installed successfully!\033[0m"
+            return 0
+        else
+            echo -e "\033[1;31mAutomatic installation failed. Try manual installation:\033[0m"
+            echo -e "1. Visit: https://developer.nvidia.com/cuda-downloads"
+            echo -e "2. Choose version matching your driver (${driver_version})"
+            return 1
+        fi
     
+    # No CUDA components found
     else
-        echo -e "\n\033[1;31mCUDA is not installed or not in PATH.\033[0m"
-        echo -e "\033[1;33mWould you like to install CUDA now? (y/n)\033[0m"
+        echo -e "\033[1;31mNo CUDA components found.\033[0m"
+        echo -e "\033[1;33mWould you like to install CUDA? (y/n)\033[0m"
         read -r answer
         if [[ "$answer" =~ [Yy] ]]; then
-            echo "Installing CUDA..."
             if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh); then
                 echo -e "\033[1;32mCUDA installed successfully!\033[0m"
                 return 0
             else
-                echo -e "\033[1;31mCUDA installation failed. Please install it manually.\033[0m"
+                echo -e "\033[1;31mInstallation failed. Try manual installation.\033[0m"
                 return 1
             fi
         else
-            echo -e "\033[1;31mCUDA is required for Gensyn node installation.\033[0m"
+            echo -e "\033[1;31mCUDA is required for GPU acceleration.\033[0m"
             return 1
         fi
     fi
