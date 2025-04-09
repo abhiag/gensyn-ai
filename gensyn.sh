@@ -216,7 +216,6 @@ install_docker
 install_python
 install_node
 clone_repo
-setup_swap
 cleanup
 
 # Final output
