@@ -20,36 +20,44 @@ check_cuda() {
         local driver_version=$(nvidia-smi | grep -oP 'CUDA Version: \K[0-9.]+')
         echo -e "Detected Driver CUDA Version: ${driver_version}"
         
-        echo -e "\033[1;36mAttempting to install matching CUDA Toolkit...\033[0m"
-        if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh); then
-            echo -e "\033[1;32mCUDA Toolkit installed successfully!\033[0m"
-            return 0
+        echo -e "\033[1;36mWould you like to install the matching CUDA Toolkit? (y/n)\033[0m"
+        read -r answer
+        if [[ "$answer" =~ [Yy] ]]; then
+            if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh); then
+                echo -e "\033[1;32mCUDA Toolkit installed successfully!\033[0m"
+                return 0
+            else
+                echo -e "\033[1;31mInstallation failed. You can proceed without CUDA or try manual installation:\033[0m"
+                echo -e "1. Visit: https://developer.nvidia.com/cuda-downloads"
+                echo -e "2. Choose version matching your driver (${driver_version})"
+                return 1
+            fi
         else
-            echo -e "\033[1;31mAutomatic installation failed. Try manual installation:\033[0m"
-            echo -e "1. Visit: https://developer.nvidia.com/cuda-downloads"
-            echo -e "2. Choose version matching your driver (${driver_version})"
+            echo -e "\033[1;33mProceeding without CUDA Toolkit installation.\033[0m"
             return 1
         fi
     
     # No CUDA components found
     else
-        echo -e "\033[1;31mNo CUDA components found.\033[0m"
-        echo -e "\033[1;33mWould you like to install CUDA? (y/n)\033[0m"
+        echo -e "\033[1;33mNo CUDA components found.\033[0m"
+        echo -e "\033[1;36mWould you like to install CUDA? (y/n)\033[0m"
         read -r answer
         if [[ "$answer" =~ [Yy] ]]; then
             if bash <(curl -sSL https://raw.githubusercontent.com/abhiag/CUDA/main/cu.sh); then
                 echo -e "\033[1;32mCUDA installed successfully!\033[0m"
                 return 0
             else
-                echo -e "\033[1;31mInstallation failed. Try manual installation.\033[0m"
+                echo -e "\033[1;31mInstallation failed. You can proceed without CUDA or try manual installation.\033[0m"
                 return 1
             fi
         else
-            echo -e "\033[1;31mCUDA is required for GPU acceleration.\033[0m"
+            echo -e "\033[1;33mProceeding without CUDA installation.\033[0m"
             return 1
         fi
     fi
 }
+
+
 
 # Function to display the menu
 show_menu() {
@@ -70,12 +78,12 @@ show_menu() {
 install_node() {
     echo "Starting Node Installation with dependency fixes..."
     
-    # First check CUDA requirements
-    if ! check_cuda; then
-        read -p "Press [Enter] to return to menu..."
-        return 1
-    fi
-
+# Run the check
+if check_cuda; then
+    echo -e "\033[1;32mCUDA setup complete. GPU acceleration available.\033[0m"
+else
+    echo -e "\033[1;33mContinuing with CPU-only mode. Some features may be limited.\033[0m"
+fi
     # Create temporary installation directory
     TEMP_DIR=$(mktemp -d)
     cd "$TEMP_DIR" || exit 1
