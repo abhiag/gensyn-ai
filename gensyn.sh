@@ -159,7 +159,7 @@ install_python() {
     python -m pip install --upgrade pip
     check_success "Pip upgrade"
 
-    python -m pip install "protobuf==5.27.1"
+    python -m pip install "protobuf==5.27.2"
     check_success "Protobuf installation"
 
     # Verification
