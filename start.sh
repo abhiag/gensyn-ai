@@ -18,7 +18,7 @@ echo "Setting up the node environment in screen..."
 screen -S $SESSION_NAME -X stuff "cd $PROJECT_DIR$(printf \\r)"
 screen -S $SESSION_NAME -X stuff "python3 -m venv $VENV_DIR$(printf \\r)"
 screen -S $SESSION_NAME -X stuff "source $VENV_DIR/bin/activate$(printf \\r)"
-screen -S $SESSION_NAME -X stuff "yes | $RUN_SCRIPT$(printf \\r)"
+screen -S $SESSION_NAME -X stuff "echo 'y' | $RUN_SCRIPT$(printf \\r)"
 
 echo "Node is now running in screen session '$SESSION_NAME'!"
 echo ""
