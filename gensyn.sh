@@ -153,7 +153,7 @@ install_python() {
     python3 -m venv ~/.venv/hivemind
     source ~/.venv/hivemind/bin/activate
     pip install --upgrade pip
-    pip install protobuf==5.27.2 --break-system-packages
+    pip install "protobuf>=3.12.2,<5.28.0" --break-system-packages
 
     check_success "Virtual environment creation"
     check_success "Pip upgrade"
