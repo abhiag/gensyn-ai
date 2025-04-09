@@ -4,13 +4,24 @@
 check_cuda() {
     echo "Checking CUDA installation..."
     
-    # Check multiple ways CUDA might be detected
-    if command -v nvcc &>/dev/null || \
-       [ -f "/usr/local/cuda/version.txt" ] || \
-       nvidia-smi | grep -q "CUDA Version"; then
+    # Check via nvcc first (primary method)
+    if command -v nvcc &>/dev/null; then
         echo -e "\033[1;32mCUDA is already installed.\033[0m"
-        nvcc --version | grep "release"
+        echo -e "CUDA Version: $(nvcc --version | grep -oP 'release \K[0-9.]+')"
         return 0
+    
+    # Fallback checks (version file or nvidia-smi)
+    elif [ -f "/usr/local/cuda/version.txt" ]; then
+        echo -e "\033[1;32mCUDA is installed (via version file).\033[0m"
+        echo -e "CUDA Version: $(cat /usr/local/cuda/version.txt)"
+        return 0
+    
+    elif command -v nvidia-smi &>/dev/null && nvidia-smi | grep -q "CUDA Version"; then
+        echo -e "\033[1;33mCUDA driver found, but nvcc may not be installed.\033[0m"
+        echo -e "Driver CUDA Version: $(nvidia-smi | grep -oP 'CUDA Version: \K[0-9.]+')"
+        echo -e "\033[1;33mEnsure CUDA Toolkit (nvcc) is installed for full functionality.\033[0m"
+        return 1
+    
     else
         echo -e "\n\033[1;31mCUDA is not installed or not in PATH.\033[0m"
         echo -e "\033[1;33mWould you like to install CUDA now? (y/n)\033[0m"
@@ -30,7 +41,6 @@ check_cuda() {
         fi
     fi
 }
-
 # Function to display the menu
 show_menu() {
     clear
