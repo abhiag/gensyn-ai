@@ -150,18 +150,13 @@ install_python() {
     # Remove existing virtual environment if present
     rm -rf ~/.venv/hivemind
 
-    # Create new virtual environment
     python3 -m venv ~/.venv/hivemind
-    check_success "Virtual environment creation"
-
-    # Activate virtual environment
     source ~/.venv/hivemind/bin/activate
-
-    # Upgrade pip and install protobuf inside the venv
     pip install --upgrade pip
-    check_success "Pip upgrade"
-
     pip install protobuf==5.27.2
+
+    check_success "Virtual environment creation"
+    check_success "Pip upgrade"
     check_success "Protobuf installation"
 
     # Print version info
