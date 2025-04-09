@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # RL-Swarm Node Launcher
-# Updated version with git clone
+# Updated version with GPU detection and CPU-only mode
 
 # Configuration
 SESSION_NAME="gensyn"
@@ -22,6 +22,15 @@ else
     echo "Project directory already exists, skipping clone"
 fi
 
+# Check for NVIDIA GPU
+GPU_AVAILABLE=1
+if ! command -v nvcc &> /dev/null; then
+    GPU_AVAILABLE=0
+    echo "NVIDIA CUDA compiler (nvcc) not found. Using CPU-only mode."
+else
+    echo "NVIDIA GPU detected. Using GPU acceleration."
+fi
+
 # Create screen session
 echo "Creating screen session named '$SESSION_NAME'..."
 screen -dmS $SESSION_NAME
@@ -31,7 +40,13 @@ echo "Setting up the node environment in screen..."
 screen -S $SESSION_NAME -X stuff "cd $PROJECT_DIR$(printf \\r)"
 screen -S $SESSION_NAME -X stuff "python3 -m venv $VENV_DIR$(printf \\r)"
 screen -S $SESSION_NAME -X stuff "source $VENV_DIR/bin/activate$(printf \\r)"
-screen -S $SESSION_NAME -X stuff "echo 'y' | $RUN_SCRIPT$(printf \\r)"  # Automatically answers 'N' to the Hugging Face prompt
+
+# Run with CPU_ONLY flag if no GPU detected
+if [ $GPU_AVAILABLE -eq 0 ]; then
+    screen -S $SESSION_NAME -X stuff "CPU_ONLY=1 echo 'y' | $RUN_SCRIPT$(printf \\r)"
+else
+    screen -S $SESSION_NAME -X stuff "echo 'y' | $RUN_SCRIPT$(printf \\r)"
+fi
 
 echo "Node is now running in screen session '$SESSION_NAME'!"
 echo ""
