@@ -147,25 +147,27 @@ install_python() {
     sudo apt-get install -y python3 python3-pip python3-venv python3-dev python3-full
     check_success "System Python installation"
 
-    # Create clean virtual environment
-    rm -rf ~/.venv/hivemind  # Remove existing if any
+    # Remove existing virtual environment if present
+    rm -rf ~/.venv/hivemind
+
+    # Create new virtual environment
     python3 -m venv ~/.venv/hivemind
     check_success "Virtual environment creation"
 
     # Activate virtual environment
     source ~/.venv/hivemind/bin/activate
 
-    # Upgrade pip inside venv and install protobuf
-    python -m pip install --upgrade pip
+    # Upgrade pip and install protobuf inside the venv
+    pip install --upgrade pip
     check_success "Pip upgrade"
 
-    python -m pip install "protobuf==5.27.2"
+    pip install protobuf==5.27.2
     check_success "Protobuf installation"
 
-    # Verification
+    # Print version info
     status "Python version: $(python --version)"
     status "Pip version: $(pip --version)"
-    status "Protobuf version: $(pip show protobuf | grep Version)"
+    status "Protobuf version: $(pip show protobuf | grep ^Version)"
 }
 
 install_node() {
