@@ -6,7 +6,7 @@
 # Configuration
 SESSION_NAME="gensyn"
 PROJECT_DIR="$HOME/rl-swarm"
-GIT_REPO="https://github.com/0xmoei/rl-swarm"
+GIT_REPO="https://github.com/gensyn-ai/rl-swarm"
 VENV_DIR="$PROJECT_DIR/.venv"
 RUN_SCRIPT="$PROJECT_DIR/run_rl_swarm.sh"
 
