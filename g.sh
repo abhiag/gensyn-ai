@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Add CUDA environment paths
+export PATH=/usr/local/cuda-12.8/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-12.8/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
 check_cuda() {
     echo "Checking CUDA installation..."
     
@@ -7,6 +11,7 @@ check_cuda() {
     if command -v nvcc &>/dev/null; then
         echo -e "\033[1;32mCUDA Toolkit is installed.\033[0m"
         nvcc --version | grep "release"
+        echo -e "CUDA Path: $(which nvcc)"
         return 0
     
     # Secondary check - driver but no toolkit
@@ -45,6 +50,7 @@ check_cuda() {
         fi
     fi
 }
+
 # Function to display the menu
 show_menu() {
     clear
