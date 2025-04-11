@@ -50,11 +50,6 @@ fi
 
 echo "Node is now running in screen session '$SESSION_NAME'!"
 echo ""
-echo "To attach to the session:"
-echo "  screen -r $SESSION_NAME"
-echo ""
+echo "Go Back & Press 3 & then press 1 the Check the Node Log"
 echo "To detach from session (keep running in background):"
 echo "  Press Ctrl+A then D"
-echo ""
-echo "To list all screen sessions:"
-echo "  screen -ls"
