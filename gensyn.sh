@@ -4,7 +4,7 @@
 # This script will install all required packages and tools
 
 # Configuration
-PROJECT_DIR="$HOME/root/rl-swarm"
+PROJECT_DIR="$HOME/rl-swarm"
 GIT_REPO="https://github.com/gensyn-ai/rl-swarm"
 
 # Function to print section headers
