@@ -3,10 +3,11 @@
 Gensyn AI Node is a simple one-click toolkit to set up and run your AI node effortlessly.
 
 ## 🔥 Requirements
-- **GPU Required**
+- **24GB GPU VRAM Required**
 - **FOR GPU Users CUDA must be installed**
-- **If It's running Fine with CPU VPS Users - It'll be shared with you soon**
-
+- **Non-GPU users can also run node**
+- **For CPU - It must be 15GB+ RAM & 8Core+ CPU**
+- **💾 Storage we need 100GB**
 ---
 
 ## 🔹 Step 1: Run the Toolkit
