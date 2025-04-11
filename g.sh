@@ -193,7 +193,7 @@ check_status() {
         case $subchoice in
             1)
                 echo "Attaching to screen session 'gensyn' (press Ctrl+A then D to detach)..."
-                screen -r gensyn
+                screen -d -r gensyn
                 echo "Detached from screen session."
                 ;;
             2)
