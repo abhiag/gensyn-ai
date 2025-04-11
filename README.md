@@ -22,34 +22,28 @@ bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/g.sh)
 
 ---
 
-## 🔹 Running the Node on WSL or Local Ubuntu
-1. Open this link in your browser: [http://localhost:3000/](http://localhost:3000/)
-2. Log in with your email  
-3. Go back to the terminal and wait a few minutes  
-4. When prompted for an access token:  
-   - Sign up/login here: [Generate Hugging Face Token](https://huggingface.co/settings/tokens/new?tokenType=write)
-   - Generate a **Write access token**
-
----
-
 ## 🔹 Running the Node on a VPS
-1. Open **PowerShell, WSL, or Termux Mobile App**  
+1. Open **PowerShell, or Termux Mobile App**  
 2. Run the following command:
 ```bash
-ssh -L 3000:localhost:3000 root@your_vps_ip -P 22
+ssh -P 22 root@your_vps_ip -L 3000:localhost:3000
 ```
-📌 Replace `your_vps_ip` with your actual VPS IP and update the port `22` if necessary.
+📌 Replace `root@your_vps_ip` with your actual VPS IP and update the port `22` if necessary.
 
 3. Open this link in your browser: [http://localhost:3000/](http://localhost:3000/)
 4. Log in with your email  
 5. Go back to the terminal and wait a few minutes  
-6. When prompted for an access token:  
-   - Sign up/login here: [Generate Hugging Face Token](https://huggingface.co/settings/tokens/new?tokenType=write)
-   - Generate a **Write access token**  
-7. Enter the token when prompted and **you're done!** 🎉
+6. and your node will start working.  **you're done!** 🎉
+
+---
+
+## 🔹 Running the Node on WSL or Local Ubuntu
+1. Open this link in your browser: [http://localhost:3000/](http://localhost:3000/)
+2. Log in with your email  
+3. Go back to the terminal and wait a few minutes Your node will start working. 
 
 ---
 
 ## ✅ You're All Set!
-Keep your node running and start earning rewards. 🚀
+You keep your node running and become eligible for rewards. 🚀
 
