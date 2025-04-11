@@ -18,7 +18,7 @@ Gensyn AI Node is a simple one-click toolkit to set up and run your AI node effo
 ## 🔹 Step 1: Run the Toolkit
 Run the following command in your terminal:
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/g.sh)
+apt update && apt install bash curl sudo wget -y && bash <(curl -sSL https://raw.githubusercontent.com/abhiag/gensyn-ai/main/g.sh)
 ```
 
 ### 📌 Node Installation Options
