@@ -23,7 +23,7 @@ sudo apt install -y \
     screen curl iptables build-essential git wget lz4 jq \
     make gcc nano automake autoconf tmux htop nvme-cli \
     libgbm1 pkg-config libssl-dev libleveldb-dev tar clang \
-    bsdmainutils ncdu unzip libleveldb-dev netcat-traditional
+    bsdmainutils ncdu unzip nvtop htop libleveldb-dev netcat-traditional
 
 print_section "3. Installing Python"
 sudo apt-get install -y python3 python3-pip python3-venv python3-dev
