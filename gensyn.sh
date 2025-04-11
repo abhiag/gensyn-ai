@@ -3,6 +3,10 @@
 # Auto-Install Script for Dependencies
 # This script will install all required packages and tools
 
+# Configuration
+PROJECT_DIR="rl-swarm"
+GIT_REPO="https://github.com/gensyn-ai/rl-swarm"
+
 # Function to print section headers
 print_section() {
     echo ""
@@ -44,8 +48,18 @@ curl -o- -L https://yarnpkg.com/install.sh | bash
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 source ~/.bashrc
 
-print_section "6. Cloning rl-swarm Repository"
-git clone https://github.com/gensyn-ai/rl-swarm
+print_section "6. Setting Up Project Repository"
+# Clone repository if it doesn't exist
+if [ ! -d "$PROJECT_DIR" ]; then
+    echo "Cloning repository..."
+    git clone "$GIT_REPO" "$PROJECT_DIR"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to clone repository"
+        exit 1
+    fi
+else
+    echo "Project directory already exists, skipping clone"
+fi
 
 print_section "Installation Complete!"
 echo "All dependencies have been installed successfully."
