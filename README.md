@@ -22,9 +22,10 @@ apt update && apt install bash curl sudo wget -y && bash <(curl -sSL https://raw
 ```
 
 ### 📌 Node Installation Options
-1️⃣ Press **1** to install the node  
+1️⃣ Press **1** to install the node & Once it installed 
 2️⃣ Press **2** to start the node  
-3️⃣ Keep it running until you see: **"Waiting for userdata.json to be created"**
+3️⃣ Come back & Press 3
+4️⃣ Keep it running until you see: **"Waiting for userdata.json to be created"**
 
 ---
 
