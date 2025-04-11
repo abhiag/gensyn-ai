@@ -29,7 +29,7 @@ apt update && apt install bash curl sudo wget -y && bash <(curl -sSL https://raw
 
 ---
 
-## 🔹 Running the Node on a VPS
+## 🔹 If You are Running the Node on a VPS
 1. Open **PowerShell, or Termux Mobile App**  
 2. Run the following command:
 ```bash
@@ -44,7 +44,7 @@ ssh -P 22 root@your_vps_ip -L 3000:localhost:3000
 
 ---
 
-## 🔹 Running the Node on WSL or Local Ubuntu
+## 🔹 IF Running the Node on WSL or Local Ubuntu
 1. Open this link in your browser: [http://localhost:3000/](http://localhost:3000/)
 2. Log in with your email  
 3. Go back to the terminal and wait a few minutes Your node will start working. 
