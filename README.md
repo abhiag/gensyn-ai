@@ -13,6 +13,9 @@ Gensyn AI Node is a simple one-click toolkit to set up and run your AI node effo
 - **🔗 You can Also use QuickPod: https://console.quickpod.io/?affiliate=32692e67-f4fb-4687-978c-5cd9d5d4e25e**
 - **🔗 OR also you can use Vast-AI: http://cloud.vast.ai/?ref_id=230105**
 
+📺 Follow the video: https://x.com/GACryptoO/status/1910601547660112240
+🔽Written steps below🔽
+
 ---
 
 ## 🔹 Step 1: Run the Toolkit
