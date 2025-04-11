@@ -43,6 +43,8 @@ echo "Yarn version: $(yarn -v)"
 curl -o- -L https://yarnpkg.com/install.sh | bash
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 source ~/.bashrc
+
+print_section "6. Cloning rl-swarm Repository"
 git clone https://github.com/gensyn-ai/rl-swarm
 
 print_section "Installation Complete!"
