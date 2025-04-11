@@ -8,6 +8,11 @@ Gensyn AI Node is a simple one-click toolkit to set up and run your AI node effo
 - **Non-GPU users can also run node**
 - **For CPU - It must be 15GB+ RAM & 8Core+ CPU**
 - **💾 Storage we need 100GB**
+
+- **🔹 I'm Running with QuickPod GPU Renting Instances:**
+- **🔗 You can Also use QuickPod: https://console.quickpod.io/?affiliate=32692e67-f4fb-4687-978c-5cd9d5d4e25e**
+- **🔗 OR also you can use Vast-AI: http://cloud.vast.ai/?ref_id=230105**
+
 ---
 
 ## 🔹 Step 1: Run the Toolkit
